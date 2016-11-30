@@ -16,7 +16,7 @@
       <div id='app'>
         <script type="text/babel">
 
-          var init = "Google Pixel phones to be unveiled October 4" +
+          var inputText = "Google Pixel phones to be unveiled October 4" +
           "The firm may also launch its voice-activated AI home audio speaker, a VR headset and a 4K Chromecast. " +
           "Google will unveil its latest Pixel smartphones on October 4, the firm has suggested through a teaser website. "+
           "It is believed the Nexus brand name will be dropped in favour of two new models: the Pixel and the Pixel XL. " +
@@ -30,6 +30,8 @@
           "Any home device would be a rival to Amazon's Echo, which launched in the UK on September 16. The Echo uses Amazon's own personal assistant, Alexa, to control internet of things devices as well as provide news, weather, and travel updates. " +
           "Although the teaser website doesn't reference any of these products, Google previously said its Home device would launch before the end of 2016.";
 
+          var init = "The firm may also launch its voice-activated AI home audio speaker, a VR headset and a 4K Chromecast. " +
+          "Google will unveil its latest Pixel smartphones on October 4, the firm has suggested through a teaser website. ";
 
           var App = React.createClass({
             getInitialState() {
@@ -122,8 +124,6 @@
                 var currentPos = 0;
                 var overlap = 0;
                 for(var i = 0; i < orderedSelections.length; i++) {
-                  console.log('overlap = ' + overlap);
-                  console.log('currentPos = ' + currentPos);
                   if(currentPos > orderedSelections[i].start) {
                     content.pop();
                     if(overlap > 0) {
@@ -131,22 +131,22 @@
                     } else {
                         currentPos = orderedSelections[i - 1].start;
                     }
-                    content.push(<span className='highlight'>{init.slice(currentPos, orderedSelections[i].start)}</span>);
-                    content.push(<span className='highlightRed'>{init.slice(orderedSelections[i].start, orderedSelections[i - 1].end)}</span>);
-                    content.push(<span key={i} className='highlight'>{init.slice(orderedSelections[i - 1].end, orderedSelections[i].end)}</span>);
+                    content.push(<span key={content.length} className="highlight">{init.slice(currentPos, orderedSelections[i].start)}</span>);
+                    content.push(<span key={content.length} className='highlightRed'>{init.slice(orderedSelections[i].start, orderedSelections[i - 1].end)}</span>);
+                    content.push(<span key={content.length} className='highlight'>{init.slice(orderedSelections[i - 1].end, orderedSelections[i].end)}</span>);
                     overlap = orderedSelections[i - 1].end;
                   } else {
-                    content.push(init.slice(currentPos, orderedSelections[i].start));
-                    content.push(<span key={i} className='highlight'>{init.slice(orderedSelections[i].start, orderedSelections[i].end)}</span>);
+                    content.push(<span key={content.length}>{init.slice(currentPos, orderedSelections[i].start)}</span>);
+                    content.push(<span key={content.length} className='highlight'>{init.slice(orderedSelections[i].start, orderedSelections[i].end)}</span>);
                     overlap = 0;
                   }
                   currentPos = orderedSelections[i].end;
                   if(i === orderedSelections.length - 1) {
-                    content.push(init.slice(currentPos));
+                    content.push(<span key={content.length}>{init.slice(currentPos)}</span>);
                   }
                 }
 
-                return <div className="text" id='text' onClick={this.highLightText}>
+                return <div className="text" id='text' onMouseUp={this.highLightText}>
                   {content}
                 </div>
               }
@@ -166,7 +166,7 @@
               var selectedElements = [];
               this.props.selectedItems.forEach(function(element, index) {
                 var selectedElement =
-                <li>
+                <li key={index}>
                   <span className="selectionTitile">Selection {index + 1}: </span>
                   <div className="selectedItem">
                     {init.slice(element.start, element.end)}
