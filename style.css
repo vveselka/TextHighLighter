@@ -1,0 +1,19 @@
+.text::selection {
+  background: #E8E6CE;
+}
+
+.highlight {
+  background: #FCC8E1;
+}
+
+.sidePanel {
+  display: inline-block;
+  width: 30%;
+  vertical-align: top;
+}
+
+.text {
+  display: inline-block;
+  width: 70%;
+  vertical-align: top;
+}

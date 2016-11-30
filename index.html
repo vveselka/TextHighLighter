@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Text Highlighter</title>
+  </head>
+  <body>
+    <div class="container">
+      <h3>Text HighLighter</h3>
+      <div id='app'>
+        <script type="text/babel">
+        var init = "Google Pixel phones to be unveiled October 4 The firm may also launch its voice-activated AI home audio speaker, a VR headset and a 4K Chromecast Google will unveil its latest Pixel smartphones on October 4, the firm has suggested through a teaser website. It is believed the Nexus brand name will be dropped in favour of two new models: the Pixel and the Pixel XL.";
+          var App = React.createClass({
+            getInitialState() {
+              return {
+                  selectedItems: [],
+              }
+            },
+            render() {
+              return <div className="app">
+                <Text selectedItems={this.state.selectedItems} addNewSelectedText={this.addSelectedText}/>
+                <SidePanel />
+              </div>
+            },
+            addSelectedText() {
+              var el = document.getElementById('text');
+              var sel = window.getSelection();
+              var range = sel.getRangeAt(0);
+              var preCaretRange = range.cloneRange();
+              preCaretRange.selectNodeContents(el);
+              preCaretRange.setEnd(range.startContainer, range.startOffset);
+              var start = preCaretRange.toString().length;
+              preCaretRange.setEnd(range.endContainer, range.endOffset);
+              var end = preCaretRange.toString().length;
+              var highLightedText = init.slice(start, end);
+              var newItems = this.state.selectedItems;
+              newItems.push({
+                start: start,
+                end: end,
+              });
+              this.setState({
+                selectedItems: newItems,
+              })
+            }
+          });
+
+
+          var Text = React.createClass({
+            propTypes: {
+              selectedItems: React.PropTypes.array.isRequired,
+              addNewSelectedText: React.PropTypes.func.isRequired,
+            },
+            render() {
+              this.props.selectedItems.sort(function(obj1, obj2) {
+                return obj1.start - obj2.end;
+              });
+              console.log(this.props.selectedItems);
+
+              if(this.props.selectedItems.length === 0) {
+                return <div className="text" id='text' onMouseUp={this.highLightText}>
+                      {init}
+                </div>
+
+              } else {
+                var content = [];
+                var currentPos = 0;
+                this.props.selectedItems.forEach(function(item, i) {
+                  // console.log('before');
+                  // console.log(this.props.selectedItems);
+                  if(currentPos > item.start) {
+                    item.start = currentPos;
+                  }
+                  // console.log('after');
+                  // console.log(this.props.selectedItems);
+                  content.push(init.slice(currentPos, item.start));
+                  content.push(<span key={i} className='highlight'>{init.slice(item.start, item.end)}</span>);
+                  currentPos = item.end;
+                  if(i === this.props.selectedItems.length - 1) {
+                    content.push(init.slice(currentPos));
+                  }
+                }.bind(this));
+                return <div className="text" id='text' onMouseUp={this.highLightText}>
+                  {content}
+                </div>
+              }
+
+            },
+            highLightText() {
+              this.props.addNewSelectedText();
+            }
+          });
+
+          var SidePanel = React.createClass({
+            render() {
+              return <div className='sidePanel'>
+                Side panel here!
+              </div>
+            }
+          });
+          ReactDOM.render(<App />, document.getElementById('app'));
+
+
+
+        </script>
+      </div>
+    </div>
+  </body>
+</html>
