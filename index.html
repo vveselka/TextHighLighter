@@ -14,30 +14,50 @@
       <h3>Text HighLighter</h3>
       <div id='app'>
         <script type="text/babel">
-        var init = "Google Pixel phones to be unveiled October 4 The firm may also launch its voice-activated AI home audio speaker, a VR headset and a 4K Chromecast Google will unveil its latest Pixel smartphones on October 4, the firm has suggested through a teaser website. It is believed the Nexus brand name will be dropped in favour of two new models: the Pixel and the Pixel XL.";
+          var init = "Google Pixel phones to be unveiled October 4 The firm may also launch its voice-activated AI home audio speaker, a VR headset and a 4K Chromecast Google will unveil its latest Pixel smartphones on October 4, the firm has suggested through a teaser website. It is believed the Nexus brand name will be dropped in favour of two new models: the Pixel and the Pixel XL.";
           var App = React.createClass({
             getInitialState() {
               return {
                   selectedItems: [],
+                  showAlert: false,
               }
             },
             render() {
+              var displayError = {
+                display: this.state.showAlert === false ? 'none': 'block',
+              }
               return <div className="app">
+                <div className='error text-muted' style={displayError} >
+                  Ooops, you trying to select selected area :(
+                </div>
                 <Text selectedItems={this.state.selectedItems} addNewSelectedText={this.addSelectedText}/>
-                <SidePanel />
+                <SidePanel selectedItems={this.state.selectedItems}/>
               </div>
             },
             addSelectedText() {
+              this.setState({
+                showAlert: false,
+              })
               var el = document.getElementById('text');
               var sel = window.getSelection();
               var range = sel.getRangeAt(0);
+              if(range.toString() === '') return;
               var preCaretRange = range.cloneRange();
               preCaretRange.selectNodeContents(el);
               preCaretRange.setEnd(range.startContainer, range.startOffset);
               var start = preCaretRange.toString().length;
               preCaretRange.setEnd(range.endContainer, range.endOffset);
               var end = preCaretRange.toString().length;
-              var highLightedText = init.slice(start, end);
+              for(var i = 0; i < this.state.selectedItems.length; i++) {
+                if(this.state.selectedItems[i].start === start && this.state.selectedItems[i].end === end
+                    || this.state.selectedItems[i].start > start && this.state.selectedItems[i].end < end
+                    || this.state.selectedItems[i].start < start && this.state.selectedItems[i].end > end){
+                    this.setState({
+                      showAlert: true,
+                    })
+                    return;
+                  }
+              }
               var newItems = this.state.selectedItems;
               newItems.push({
                 start: start,
@@ -56,29 +76,33 @@
               addNewSelectedText: React.PropTypes.func.isRequired,
             },
             render() {
+              var orderedSelections = this.props.selectedItems.slice();
               this.props.selectedItems.sort(function(obj1, obj2) {
-                return obj1.start - obj2.end;
+                if(obj1.start > obj2.start) return 1;
+                if(obj1.start < obj2.start) return -1;
+                return 0;
               });
-              console.log(this.props.selectedItems);
+
+              // orderedSelections.sort(function(obj1, obj2) {
+              //   if(obj1.start > obj2.start) return 1;
+              //   if(obj1.start < obj2.start) return -1;
+              //   return 0;
+              // });
 
               if(this.props.selectedItems.length === 0) {
                 return <div className="text" id='text' onMouseUp={this.highLightText}>
                       {init}
                 </div>
-
               } else {
                 var content = [];
                 var currentPos = 0;
                 this.props.selectedItems.forEach(function(item, i) {
-                  // console.log('before');
-                  // console.log(this.props.selectedItems);
                   if(currentPos > item.start) {
-                    item.start = currentPos;
+                    content.push(<span key={i} className='highlight'>{init.slice(currentPos, item.end)}</span>);
+                  } else {
+                      content.push(init.slice(currentPos, item.start));
+                      content.push(<span key={i} className='highlight'>{init.slice(item.start, item.end)}</span>);
                   }
-                  // console.log('after');
-                  // console.log(this.props.selectedItems);
-                  content.push(init.slice(currentPos, item.start));
-                  content.push(<span key={i} className='highlight'>{init.slice(item.start, item.end)}</span>);
                   currentPos = item.end;
                   if(i === this.props.selectedItems.length - 1) {
                     content.push(init.slice(currentPos));
@@ -96,15 +120,26 @@
           });
 
           var SidePanel = React.createClass({
+            propTypes: {
+              selectedItems: React.PropTypes.array,
+            },
             render() {
+              var selectedElements = [];
+              this.props.selectedItems.forEach(function(element, index) {
+                var selectedElement = <li>Selection {index + 1} <br/> {init.slice(element.start, element.end)}</li>;
+                selectedElements.push(selectedElement);
+              })
               return <div className='sidePanel'>
-                Side panel here!
+                <div className="sideBarTitle">
+                  My selections:
+                </div>
+                <ul>
+                  {selectedElements}
+                </ul>
               </div>
             }
           });
           ReactDOM.render(<App />, document.getElementById('app'));
-
-
 
         </script>
       </div>

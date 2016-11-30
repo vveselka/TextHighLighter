@@ -10,10 +10,26 @@
   display: inline-block;
   width: 30%;
   vertical-align: top;
+  background-color: #E8F8F5;
 }
 
 .text {
   display: inline-block;
   width: 70%;
   vertical-align: top;
+}
+
+
+.error {
+  background: #F9FAE1;
+  width: 300px;
+  font-size: 12px;
+}
+
+li {
+  list-style-type: none
+}
+
+.sideBarTitle {
+    font-size: 25px;
 }
