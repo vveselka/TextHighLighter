@@ -6,15 +6,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Text Highlighter</title>
   </head>
   <body>
-    <div class="container">
+    <div class="container-fluid">
       <h3>Text HighLighter</h3>
-      <div id='app'>
+      <div id='app' className='row'>
         <script type="text/babel">
-          var init = "Google Pixel phones to be unveiled October 4 The firm may also launch its voice-activated AI home audio speaker, a VR headset and a 4K Chromecast Google will unveil its latest Pixel smartphones on October 4, the firm has suggested through a teaser website. It is believed the Nexus brand name will be dropped in favour of two new models: the Pixel and the Pixel XL.";
+          var init2 = "Google Pixel phones to be unveiled October 4. The firm may also launch its voice-activated AI home audio speaker, a VR headset and a 4K Chromecast Google will unveil its latest Pixel smartphones on October 4, the firm has suggested through a teaser website." +
+          "It is believed the Nexus brand name will be dropped in favour of two new models: the Pixel and the Pixel XL.Current rumours around the devices - which codenahavecodenambeencodenamcodenamed Sailfish and Marlin – say the devices will be 5-inch and 5.5-inch phones. At Google's developer conference in May CEO Sundar Pichai hinted that the new line would includes additional Google features built on top of the Android operating system. As such, Pixel is expected to become a premium brand." +
+          "The teaser website shows a search bar that morphs into the outline of a phone, before flashing with various images. The event will take place in San Francisco at 9AM PST (5PM BST), and be streamed on YouTube. Leaked images of the Pixel phones Leaked images of the Pixel phones Android Police"+
+          "At present the company controls the design and marketing of its Nexus products, with the manufacturing of the devices outsourced to third parties. This, according to Pichai earlier this year, will not change." +
+          "But there could also be more to come from the event. A previous report from Android Police has said the event will be packed with Google's latest products." +
+          "Rumoured to be launching that day will be a Google virtual reality headset, under the guise of the Google Daydream project; a 4K Chromecast, and its highly anticipated AI personal assistant device." +
+          "At its developer conference, Google announced a new voice-controlled, artificial intelligence Home speaker that will connect to devices around a building and be able to control them.The artificial intelligence based Google Home speaker The artificial intelligence based Google Home speaker Google" +
+          "The device will use a Google Assistant, which is being built into a new Google messages app called Allo – which is rumoured to be launching before the October event. \"With a simple voice command, you can ask Google Home to play a song, set a timer for the oven, check your flight, or turn on your lights,\" the firm said at the time.";
+var init = "Although the teaser website doesn't reference any of these products, Google previously said its Home device would launch before the end of 2016. " +
+"Any home device would be a rival to Amazon's Echo, which launched in the UK on September 16. The Echo uses Amazon's own personal assistant, Alexa, to control internet of things devices as well as provide news, weather, and travel updates." +
+"The device will use a Google Assistant, which is being built into a new Google messages app called Allo – which is rumoured to be launching before the October event. \"With a simple voice command, you can ask Google Home to play a song, set a timer for the oven, check your flight, or turn on your lights,\" the firm said at the time.";
+
+
+
           var App = React.createClass({
             getInitialState() {
               return {
@@ -24,14 +38,14 @@
             },
             render() {
               var displayError = {
-                display: this.state.showAlert === false ? 'none': 'block',
+                visibility: this.state.showAlert === false ? 'hidden': 'visible',
               }
               return <div className="app">
                 <div className='error text-muted' style={displayError} >
                   Ooops, you trying to select selected area :(
                 </div>
                 <Text selectedItems={this.state.selectedItems} addNewSelectedText={this.addSelectedText}/>
-                <SidePanel selectedItems={this.state.selectedItems}/>
+                <SidePanel selectedItems={this.state.selectedItems} removeSelection={this.removeSelectedText}/>
               </div>
             },
             addSelectedText() {
@@ -66,6 +80,23 @@
               this.setState({
                 selectedItems: newItems,
               })
+            },
+            removeSelectedText(start, end) {
+              console.log(this.state.selectedItems);
+              var newItems = this.state.selectedItems;
+              for(var i = 0; i < newItems.length; i++) {
+                console.log(start, end);
+                console.log(newItems[i]);
+                if(newItems[i].start === start && newItems[i].end === end) {
+                  console.log('in if, i = ' + i);
+                  newItems.splice(i, 1);
+                  console.log('after deletion');
+                  console.log(newItems);
+                  this.setState({
+                    selectedItems: newItems,
+                  })
+                }
+              }
             }
           });
 
@@ -77,37 +108,33 @@
             },
             render() {
               var orderedSelections = this.props.selectedItems.slice();
-              this.props.selectedItems.sort(function(obj1, obj2) {
+              orderedSelections.sort(function(obj1, obj2) {
                 if(obj1.start > obj2.start) return 1;
                 if(obj1.start < obj2.start) return -1;
                 return 0;
               });
 
-              // orderedSelections.sort(function(obj1, obj2) {
-              //   if(obj1.start > obj2.start) return 1;
-              //   if(obj1.start < obj2.start) return -1;
-              //   return 0;
-              // });
-
-              if(this.props.selectedItems.length === 0) {
+              if(orderedSelections.length === 0) {
                 return <div className="text" id='text' onMouseUp={this.highLightText}>
-                      {init}
+                    {init}
                 </div>
               } else {
                 var content = [];
                 var currentPos = 0;
-                this.props.selectedItems.forEach(function(item, i) {
-                  if(currentPos > item.start) {
-                    content.push(<span key={i} className='highlight'>{init.slice(currentPos, item.end)}</span>);
+
+                for(var i = 0; i < orderedSelections.length; i++) {
+                  if(currentPos > orderedSelections[i].start) {
+                    content.push(<span key={i} className='highlight'>{init.slice(currentPos, orderedSelections[i].end)}</span>);
+
                   } else {
-                      content.push(init.slice(currentPos, item.start));
-                      content.push(<span key={i} className='highlight'>{init.slice(item.start, item.end)}</span>);
+                    content.push(init.slice(currentPos, orderedSelections[i].start));
+                    content.push(<span key={i} className='highlight'>{init.slice(orderedSelections[i].start, orderedSelections[i].end)}</span>);
                   }
-                  currentPos = item.end;
-                  if(i === this.props.selectedItems.length - 1) {
+                  currentPos = orderedSelections[i].end;
+                  if(i === orderedSelections.length - 1) {
                     content.push(init.slice(currentPos));
                   }
-                }.bind(this));
+                }
                 return <div className="text" id='text' onMouseUp={this.highLightText}>
                   {content}
                 </div>
@@ -122,13 +149,24 @@
           var SidePanel = React.createClass({
             propTypes: {
               selectedItems: React.PropTypes.array,
+              removeSelection: React.PropTypes.func.isRequired,
             },
             render() {
               var selectedElements = [];
               this.props.selectedItems.forEach(function(element, index) {
-                var selectedElement = <li>Selection {index + 1} <br/> {init.slice(element.start, element.end)}</li>;
+                var selectedElement =
+                <li>
+                  <span className="selectionTitile">Selection {index + 1}: </span>
+                  <div className="selectedItem">
+                    {init.slice(element.start, element.end)}
+                  </div>
+                  <div className="removeSelection" onClick={this.removeSelection.bind(this, element.start, element.end)}>
+                    Remove
+                  </div>
+
+                </li>;
                 selectedElements.push(selectedElement);
-              })
+              }.bind(this))
               return <div className='sidePanel'>
                 <div className="sideBarTitle">
                   My selections:
@@ -137,8 +175,12 @@
                   {selectedElements}
                 </ul>
               </div>
+            },
+            removeSelection(start, end) {
+                this.props.removeSelection(start, end);
             }
           });
+
           ReactDOM.render(<App />, document.getElementById('app'));
 
         </script>
