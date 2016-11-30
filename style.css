@@ -5,6 +5,10 @@
    font-family: 'Noto Serif', serif;
 }
 
+h3 {
+  text-align: center;
+  font-weight: bold;
+}
 .text::selection {
   background: #E8E6CE;
 }
@@ -24,28 +28,35 @@
 .sidePanel {
   display: inline-block;
   width: 25%;
+  margin-right: 5%
   float: right;
   vertical-align: top;
   background-color: #EBEDEF;
-  height: 800px;
+  min-height: 800px;
+
 }
 
 .text {
   display: inline-block;
   vertical-align: top;
   font-size: 18px;
-  width: 75%;
+  width: 65%;
   height: 800px;
   padding-right: 40px;
   padding-left: 20px;
-  padding-top: 50px;
+  padding-top: 20px;
+  margin-left: 5%;
 }
 
 
 .error {
-  background: #F9FAE1;
-  width: 300px;
+  background: #FCD5D1;
+  width: 350px;
+  height: 50px;
   font-size: 16px;
+  margin-left: 10%;
+  padding: 5px;
+  align-content: center;
 }
 
 li {
@@ -61,16 +72,18 @@ li {
 .selectedItem {
   font-size: 16px;
   padding-left: 12px;
-  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .selectionTitile {
-  font-size: 20px;
+  font-size: 18px;
   padding-left: 14px;
+  font-weight: bold;
 }
 
 .removeSelection {
-  align-content: flex-end;
+  display: inline-block;
+  padding-left: 12px;
   color: #D98880;
   cursor: pointer;
   transition: color 0.5s;
@@ -80,3 +93,5 @@ li {
   color: #CD6155;
   font-weight: bold;
 }
+
+input, textarea, select, a, .text { outline: none; }
