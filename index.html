@@ -8,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Text Highlighter</title>
   </head>
   <body>
@@ -16,7 +17,7 @@
       <div id='app'>
         <script type="text/babel">
 
-          var inputText = "Google Pixel phones to be unveiled October 4" +
+          var inputText1 = "Google Pixel phones to be unveiled October 4" +
           "The firm may also launch its voice-activated AI home audio speaker, a VR headset and a 4K Chromecast. " +
           "Google will unveil its latest Pixel smartphones on October 4, the firm has suggested through a teaser website. "+
           "It is believed the Nexus brand name will be dropped in favour of two new models: the Pixel and the Pixel XL. " +
@@ -30,8 +31,12 @@
           "Any home device would be a rival to Amazon's Echo, which launched in the UK on September 16. The Echo uses Amazon's own personal assistant, Alexa, to control internet of things devices as well as provide news, weather, and travel updates. " +
           "Although the teaser website doesn't reference any of these products, Google previously said its Home device would launch before the end of 2016.";
 
-          var init = "The firm may also launch its voice-activated AI home audio speaker, a VR headset and a 4K Chromecast. " +
-          "Google will unveil its latest Pixel smartphones on October 4, the firm has suggested through a teaser website. ";
+          var inputText2 = "In addition to the production cut by Opec members, non-Opec countries will be expected to reduce production by 600,000 barrels a day, according to Mr Al-Sada. He did not list which countries these might be, beyond saying Russia was prepared to cut 300,000 barrels from its output of more than 10 million barrels a day.";
+          var inputText = "Подібно до Жадана, Герман родом із маленького містечка біля Ворошиловграда – міста, яке після падіння Радянського Союзу перестало називатись Ворошиловград, а стало Луганськом (українською мовою) і Луганском (російською мовою). Воно розташоване в Донбасі, східному регіоні України." +
+          "Після навчання в університеті в Харкові, другому за величиною місті України, приятель взяв Германа працювати політичним консультантом якоїсь мутної особи. Він став редагувати виступи, організовувати семінари про демократію і відволікати увагу від відмивання його друзями грошей." +
+          "У цілому, Герман мобільний. Він не довіряє банкам, тому ховає свої гроші між сторінками видання Гегеля." +
+          "Старший брат Германа, Юра, досі живе в своєму рідному місті, поруч із більше-не-Ворошиловградом." +
+          "Юра володіє заправкою, де вони разом із двома старими друзями ремонтують автомобілі. Один з них, Коча, – колишній дрібний злочинець. Ще один – колишня зірка футболу на прізвисько Травмований (Injured у філігранному перекладі Райллі Костігана-Гьюмса та Айзека Уїлера, хоча більш доречним було би перекладати як Traumatized).";
 
           var App = React.createClass({
             getInitialState() {
@@ -48,6 +53,7 @@
                 <div className='error text-muted' style={displayError} >
                   Ooops, you trying to select selected area :(
                 </div>
+                <Palette />
                 <Text selectedItems={this.state.selectedItems} addNewSelectedText={this.addSelectedText}/>
                 <SidePanel selectedItems={this.state.selectedItems} removeSelection={this.removeSelectedText}/>
               </div>
@@ -87,9 +93,7 @@
               })
                window.getSelection().empty();
             },
-
             removeSelectedText(start, end) {
-              console.log(this.state.selectedItems);
               var newItems = this.state.selectedItems;
               for(var i = 0; i < newItems.length; i++) {
                 if(newItems[i].start === start && newItems[i].end === end) {
@@ -117,7 +121,7 @@
 
               if(orderedSelections.length === 0) {
                 return <div className="text" id='text' onMouseUp={this.highLightText}>
-                    {init}
+                    {inputText}
                 </div>
               } else {
                 var content = [];
@@ -131,18 +135,18 @@
                     } else {
                         currentPos = orderedSelections[i - 1].start;
                     }
-                    content.push(<span key={content.length} className="highlight">{init.slice(currentPos, orderedSelections[i].start)}</span>);
-                    content.push(<span key={content.length} className='highlightRed'>{init.slice(orderedSelections[i].start, orderedSelections[i - 1].end)}</span>);
-                    content.push(<span key={content.length} className='highlight'>{init.slice(orderedSelections[i - 1].end, orderedSelections[i].end)}</span>);
+                    content.push(<span key={i + 'a'} className="highlight">{inputText.slice(currentPos, orderedSelections[i].start)}</span>);
+                    content.push(<span key={i + 'b'} className='highlightRed'>{inputText.slice(orderedSelections[i].start, orderedSelections[i - 1].end)}</span>);
+                    content.push(<span key={i + 'c'} className='highlight'>{inputText.slice(orderedSelections[i - 1].end, orderedSelections[i].end)}</span>);
                     overlap = orderedSelections[i - 1].end;
                   } else {
-                    content.push(<span key={content.length}>{init.slice(currentPos, orderedSelections[i].start)}</span>);
-                    content.push(<span key={content.length} className='highlight'>{init.slice(orderedSelections[i].start, orderedSelections[i].end)}</span>);
+                    content.push(<span key={i + 'a'}>{inputText.slice(currentPos, orderedSelections[i].start)}</span>);
+                    content.push(<span key={i + 'b'} className='highlight'>{inputText.slice(orderedSelections[i].start, orderedSelections[i].end)}</span>);
                     overlap = 0;
                   }
                   currentPos = orderedSelections[i].end;
                   if(i === orderedSelections.length - 1) {
-                    content.push(<span key={content.length}>{init.slice(currentPos)}</span>);
+                    content.push(<span key={i + 'd'}>{inputText.slice(currentPos)}</span>);
                   }
                 }
 
@@ -150,7 +154,6 @@
                   {content}
                 </div>
               }
-
             },
             highLightText() {
               this.props.addNewSelectedText();
@@ -169,7 +172,7 @@
                 <li key={index}>
                   <span className="selectionTitile">Selection {index + 1}: </span>
                   <div className="selectedItem">
-                    {init.slice(element.start, element.end)}
+                    {inputText.slice(element.start, element.end)}
                   </div>
                   <div className="removeSelection" onClick={this.removeSelection.bind(this, element.start, element.end)}>
                     Remove
@@ -191,6 +194,19 @@
                 this.props.removeSelection(start, end);
             }
           });
+
+          var Palette = React.createClass({
+            render() {
+              return <div className="palette">
+                <div className="pink" onClick={this.applyColor.bind(this, 'pink')} />
+                <div className="blue" onClick={this.applyColor.bind(this, 'blue')}/>
+                <div className="yellow" onClick={this.applyColor.bind(this, 'yellow')}/>
+              </div>
+            },
+            applyColor(color) {
+              console.log(color);
+            }
+          })
 
           ReactDOM.render(<App />, document.getElementById('app'));
 

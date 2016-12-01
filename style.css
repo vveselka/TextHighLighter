@@ -10,9 +10,6 @@ h3 {
   font-weight: bold;
   color: #0B5345;
 }
-.text::selection {
-  background: #E8E6CE;
-}
 
 .highlight {
   background: #A2D9CE;
@@ -97,4 +94,22 @@ li {
   font-weight: bold;
 }
 
-input, textarea, select, a, .text { outline: none; }
+/*input, textarea, select, a, .text { outline: none; }*/
+
+
+.palette * {
+  display: inline-block;
+  margin-left: 5%;
+  width: 20px;
+  height: 20px;
+}
+
+.blue {
+  background-color: blue;
+}
+.pink {
+  background-color: pink;
+}
+.yellow {
+  background-color: yellow;
+}
