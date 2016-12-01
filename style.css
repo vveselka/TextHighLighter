@@ -8,21 +8,14 @@
 h3 {
   text-align: center;
   font-weight: bold;
-  color: #0B5345;
-}
-
-.highlight {
-  background: #A2D9CE;
-}
-
-.container-fluid {
-  border: 1px solid #EBEDEF;
-  margin: 5px 20px 10px 10px;
+  color: #777;
+  font-size: 26px;
 }
 
 .highlightRed {
-  background: #FCCDC3;
+  background: #FCD5D1;
 }
+
 .sidePanel {
   display: inline-block;
   width: 25%;
@@ -31,7 +24,6 @@ h3 {
   vertical-align: top;
   background-color: #EBEDEF;
   min-height: 800px;
-
 }
 
 .text {
@@ -41,21 +33,16 @@ h3 {
   width: 65%;
   height: 800px;
   padding-right: 40px;
-  padding-left: 20px;
   padding-top: 20px;
   margin-left: 5%;
 }
 
-
 .error {
   background: #FCD5D1;
-  width: 350px;
-  height: 35px;
-  border-radius: 5%;
-  font-size: 16px;
-  margin-left: 10%;
+  margin-left: 100px;
   padding: 5px;
-  align-content: center;
+  vertical-align: top;
+  display: inline-block;
 }
 
 li {
@@ -64,8 +51,9 @@ li {
 }
 
 .sideBarTitle {
-    color: #0B5345;
+    color: #777;
     font-size: 25px;
+    font-weight: bold;
     padding: 50px 50px 10px 50px;
 }
 
@@ -73,6 +61,7 @@ li {
   font-size: 16px;
   padding-left: 12px;
   padding-right: 20px;
+  color: #212F3D;
 }
 
 .selectionTitile {
@@ -83,6 +72,7 @@ li {
 
 .removeSelection {
   display: inline-block;
+  font-size: 12px;
   padding-left: 12px;
   color: #D98880;
   cursor: pointer;
@@ -94,22 +84,42 @@ li {
   font-weight: bold;
 }
 
-/*input, textarea, select, a, .text { outline: none; }*/
-
-
 .palette * {
   display: inline-block;
+  width: 25px;
+  height: 25px;
+  margin-left: 5px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.palette *:hover {
+  opacity: 0.7;
+}
+
+.palette {
+  display: inline-block;
   margin-left: 5%;
-  width: 20px;
-  height: 20px;
+  vertical-align: top;
+}
+
+.green {
+  background-color: #73C6B6;
 }
 
 .blue {
-  background-color: blue;
+  background-color: #5499C7;
 }
-.pink {
-  background-color: pink;
+
+.grey {
+  background-color: #AAB7B8;
 }
-.yellow {
-  background-color: yellow;
+
+.chosenColor {
+  border: 3px solid #888;
+  cursor: default;
+}
+
+.chosenColor:hover {
+  opacity: 1;
 }

@@ -17,32 +17,26 @@
       <div id='app'>
         <script type="text/babel">
 
-          var inputText1 = "Google Pixel phones to be unveiled October 4" +
+          var inputText = "Google Pixel phones to be unveiled October 4. " +
           "The firm may also launch its voice-activated AI home audio speaker, a VR headset and a 4K Chromecast. " +
           "Google will unveil its latest Pixel smartphones on October 4, the firm has suggested through a teaser website. "+
           "It is believed the Nexus brand name will be dropped in favour of two new models: the Pixel and the Pixel XL. " +
-          "Current rumours around the devices - which have been codenamed Sailfish and Marlin - say the devices will be 5-inch and 5.5-inch phones. At Google's developer conference in May CEO Sundar Pichai hinted that the new line would includes additional Google features built on top of the Android operating system. As such, Pixel is expected to become a premium brand." +
+          "Current rumours around the devices - which have been codenamed Sailfish and Marlin - say the devices will be 5-inch and 5.5-inch phones. At Google's developer conference in May CEO Sundar Pichai hinted that the new line would includes additional Google features built on top of the Android operating system. As such, Pixel is expected to become a premium brand. " +
           "The teaser website shows a search bar that morphs into the outline of a phone, before flashing with various images. The event will take place in San Francisco at 9AM PST (5PM BST), and be streamed on YouTube. Leaked images of the Pixel phones Leaked images of the Pixel phones Android Police. " +
           "At present the company controls the design and marketing of its Nexus products, with the manufacturing of the devices outsourced to third parties. This, according to Pichai earlier this year, will not change. " +
           "But there could also be more to come from the event. A previous report from Android Police has said the event will be packed with Google's latest products. " +
           "Rumoured to be launching that day will be a Google virtual reality headset, under the guise of the Google Daydream project; a 4K Chromecast, and its highly anticipated AI personal assistant device. " +
           "At its developer conference, Google announced a new voice-controlled, artificial intelligence Home speaker that will connect to devices around a building and be able to control them. The artificial intelligence based Google Home speaker The artificial intelligence based Google Home speaker Google. " +
-          "The device will use a Google Assistant, which is being built into a new Google messages app called Allo - which is rumoured to be launching before the October event. \"With a simple voice command, you can ask Google Home to play a song, set a timer for the oven, check your flight, or turn on your lights,\" the firm said at the time." +
+          "The device will use a Google Assistant, which is being built into a new Google messages app called Allo - which is rumoured to be launching before the October event. \"With a simple voice command, you can ask Google Home to play a song, set a timer for the oven, check your flight, or turn on your lights,\" the firm said at the time. " +
           "Any home device would be a rival to Amazon's Echo, which launched in the UK on September 16. The Echo uses Amazon's own personal assistant, Alexa, to control internet of things devices as well as provide news, weather, and travel updates. " +
-          "Although the teaser website doesn't reference any of these products, Google previously said its Home device would launch before the end of 2016.";
-
-          var inputText2 = "In addition to the production cut by Opec members, non-Opec countries will be expected to reduce production by 600,000 barrels a day, according to Mr Al-Sada. He did not list which countries these might be, beyond saying Russia was prepared to cut 300,000 barrels from its output of more than 10 million barrels a day.";
-          var inputText = "Подібно до Жадана, Герман родом із маленького містечка біля Ворошиловграда – міста, яке після падіння Радянського Союзу перестало називатись Ворошиловград, а стало Луганськом (українською мовою) і Луганском (російською мовою). Воно розташоване в Донбасі, східному регіоні України." +
-          "Після навчання в університеті в Харкові, другому за величиною місті України, приятель взяв Германа працювати політичним консультантом якоїсь мутної особи. Він став редагувати виступи, організовувати семінари про демократію і відволікати увагу від відмивання його друзями грошей." +
-          "У цілому, Герман мобільний. Він не довіряє банкам, тому ховає свої гроші між сторінками видання Гегеля." +
-          "Старший брат Германа, Юра, досі живе в своєму рідному місті, поруч із більше-не-Ворошиловградом." +
-          "Юра володіє заправкою, де вони разом із двома старими друзями ремонтують автомобілі. Один з них, Коча, – колишній дрібний злочинець. Ще один – колишня зірка футболу на прізвисько Травмований (Injured у філігранному перекладі Райллі Костігана-Гьюмса та Айзека Уїлера, хоча більш доречним було би перекладати як Traumatized).";
+          "Although the teaser website doesn't reference any of these products, Google previously said its Home device would launch before the end of 2016. ";
 
           var App = React.createClass({
             getInitialState() {
               return {
                   selectedItems: [],
                   showAlert: false,
+                  currentColor: '#5499C7',
               }
             },
             render() {
@@ -50,10 +44,12 @@
                 visibility: this.state.showAlert === false ? 'hidden': 'visible',
               }
               return <div className="app">
-                <div className='error text-muted' style={displayError} >
-                  Ooops, you trying to select selected area :(
+                <div>
+                  <Palette applyColor={this.applyColor} currentColor={this.state.currentColor} />
+                  <div className='error text-muted' style={displayError} >
+                    Oops, you are trying to select selected area :(
+                  </div>
                 </div>
-                <Palette />
                 <Text selectedItems={this.state.selectedItems} addNewSelectedText={this.addSelectedText}/>
                 <SidePanel selectedItems={this.state.selectedItems} removeSelection={this.removeSelectedText}/>
               </div>
@@ -82,16 +78,16 @@
                     return;
                   }
               }
-
               var newItems = this.state.selectedItems;
               newItems.push({
                 start: start,
                 end: end,
+                color: this.state.currentColor,
               });
               this.setState({
                 selectedItems: newItems,
               })
-               window.getSelection().empty();
+              window.getSelection().empty();
             },
             removeSelectedText(start, end) {
               var newItems = this.state.selectedItems;
@@ -103,6 +99,11 @@
                   })
                 }
               }
+            },
+            applyColor(color) {
+              this.setState({
+                currentColor: color,
+              });
             }
           });
 
@@ -135,13 +136,13 @@
                     } else {
                         currentPos = orderedSelections[i - 1].start;
                     }
-                    content.push(<span key={i + 'a'} className="highlight">{inputText.slice(currentPos, orderedSelections[i].start)}</span>);
+                    content.push(<span key={i + 'a'} style={{backgroundColor: orderedSelections[i-1].color}}>{inputText.slice(currentPos, orderedSelections[i].start)}</span>);
                     content.push(<span key={i + 'b'} className='highlightRed'>{inputText.slice(orderedSelections[i].start, orderedSelections[i - 1].end)}</span>);
-                    content.push(<span key={i + 'c'} className='highlight'>{inputText.slice(orderedSelections[i - 1].end, orderedSelections[i].end)}</span>);
+                    content.push(<span key={i + 'c'} style={{backgroundColor: orderedSelections[i].color}}>{inputText.slice(orderedSelections[i - 1].end, orderedSelections[i].end)}</span>);
                     overlap = orderedSelections[i - 1].end;
                   } else {
                     content.push(<span key={i + 'a'}>{inputText.slice(currentPos, orderedSelections[i].start)}</span>);
-                    content.push(<span key={i + 'b'} className='highlight'>{inputText.slice(orderedSelections[i].start, orderedSelections[i].end)}</span>);
+                    content.push(<span key={i + 'b'} style={{backgroundColor: orderedSelections[i].color}}>{inputText.slice(orderedSelections[i].start, orderedSelections[i].end)}</span>);
                     overlap = 0;
                   }
                   currentPos = orderedSelections[i].end;
@@ -170,14 +171,13 @@
               this.props.selectedItems.forEach(function(element, index) {
                 var selectedElement =
                 <li key={index}>
-                  <span className="selectionTitile">Selection {index + 1}: </span>
+                  <span className="selectionTitile" style={{color:element.color}}>Selection {index + 1}: </span>
                   <div className="selectedItem">
                     {inputText.slice(element.start, element.end)}
                   </div>
                   <div className="removeSelection" onClick={this.removeSelection.bind(this, element.start, element.end)}>
-                    Remove
+                    REMOVE
                   </div>
-
                 </li>;
                 selectedElements.push(selectedElement);
               }.bind(this))
@@ -196,15 +196,35 @@
           });
 
           var Palette = React.createClass({
-            render() {
-              return <div className="palette">
-                <div className="pink" onClick={this.applyColor.bind(this, 'pink')} />
-                <div className="blue" onClick={this.applyColor.bind(this, 'blue')}/>
-                <div className="yellow" onClick={this.applyColor.bind(this, 'yellow')}/>
-              </div>
+            propTypes: {
+              applyColor: React.PropTypes.func.isRequired,
+              currentColor: React.PropTypes.string.isRequired,
             },
-            applyColor(color) {
-              console.log(color);
+            render() {
+              if(this.props.currentColor === '#73C6B6') {
+                  return <div className="palette">
+                    <div className="green chosenColor" onClick={this.applyColor.bind(this, '#73C6B6')} />
+                    <div className="blue" onClick={this.applyColor.bind(this, '#5499C7')}/>
+                    <div className="grey" onClick={this.applyColor.bind(this, '#AAB7B8')}/>
+                  </div>
+              }
+              if(this.props.currentColor === '#5499C7') {
+                return <div className="palette">
+                  <div className="green" onClick={this.applyColor.bind(this, '#73C6B6')} />
+                  <div className="blue chosenColor" onClick={this.applyColor.bind(this, '#5499C7')}/>
+                  <div className="grey" onClick={this.applyColor.bind(this, '#AAB7B8')}/>
+                </div>
+              }
+              if(this.props.currentColor === '#AAB7B8') {
+                return <div className="palette">
+                  <div className="green" onClick={this.applyColor.bind(this, '#73C6B6')} />
+                  <div className="blue" onClick={this.applyColor.bind(this, '#5499C7')}/>
+                  <div className="grey chosenColor" onClick={this.applyColor.bind(this, '#AAB7B8')}/>
+                </div>
+              }
+            },
+            applyColor(newColor) {
+              this.props.applyColor(newColor);
             }
           })
 
