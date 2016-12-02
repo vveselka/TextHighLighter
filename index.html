@@ -34,7 +34,7 @@
               return {
                   selectedItems: [],
                   showAlert: false,
-                  currentColor: '#5499C7',
+                  currentColor: 'green',
               }
             },
             render() {
@@ -134,13 +134,13 @@
                     } else {
                         currentPos = orderedSelections[i - 1].start;
                     }
-                    content.push(<span key={i + 'a'} style={{backgroundColor: orderedSelections[i-1].color}}>{inputText.slice(currentPos, orderedSelections[i].start)}</span>);
+                    content.push(<span key={i + 'a'} className={orderedSelections[i-1].color}>{inputText.slice(currentPos, orderedSelections[i].start)}</span>);
                     content.push(<span key={i + 'b'} className='highlightRed'>{inputText.slice(orderedSelections[i].start, orderedSelections[i - 1].end)}</span>);
-                    content.push(<span key={i + 'c'} style={{backgroundColor: orderedSelections[i].color}}>{inputText.slice(orderedSelections[i - 1].end, orderedSelections[i].end)}</span>);
+                    content.push(<span key={i + 'c'} className={orderedSelections[i].color}>{inputText.slice(orderedSelections[i - 1].end, orderedSelections[i].end)}</span>);
                     overlap = orderedSelections[i - 1].end;
                   } else {
                     content.push(<span key={i + 'a'}>{inputText.slice(currentPos, orderedSelections[i].start)}</span>);
-                    content.push(<span key={i + 'b'} style={{backgroundColor: orderedSelections[i].color}}>{inputText.slice(orderedSelections[i].start, orderedSelections[i].end)}</span>);
+                    content.push(<span key={i + 'b'} className={orderedSelections[i].color}>{inputText.slice(orderedSelections[i].start, orderedSelections[i].end)}</span>);
                     overlap = 0;
                   }
                   currentPos = orderedSelections[i].end;
@@ -148,7 +148,6 @@
                     content.push(<span key={i + 'd'}>{inputText.slice(currentPos)}</span>);
                   }
                 }
-
                 return <div className="text" id='text' onMouseUp={this.highLightText}>
                   {content}
                 </div>
@@ -169,7 +168,8 @@
               this.props.selectedItems.forEach(function(element, index) {
                 var selectedElement =
                 <li key={index}>
-                  <span className="selectionTitile" style={{color:element.color}}>Selection {index + 1}: </span>
+
+                  <span className={element.color} >Selection {index + 1}: </span>
                   <div className="selectedItem">
                     {inputText.slice(element.start, element.end)}
                   </div>
@@ -193,38 +193,36 @@
             }
           });
 
+          var Color = React.createClass({
+            propTypes: {
+              color: React.PropTypes.string.isRequired,
+              isChosen: React.PropTypes.bool.isRequired,
+              applyColor: React.PropTypes.func.isRequired,
+            },
+            render: function() {
+              var highLigh = this.props.isChosen? '   chosenColor': '';
+              return <div className={this.props.color + highLigh} onClick={this.applyColor.bind(this, this.props.color)}/>
+            },
+            applyColor(color) {
+              this.props.applyColor(color);
+            }
+          });
+
           var Palette = React.createClass({
             propTypes: {
               applyColor: React.PropTypes.func.isRequired,
               currentColor: React.PropTypes.string.isRequired,
             },
             render() {
-              if(this.props.currentColor === '#73C6B6') {
-                  return <div className="palette">
-                    <div className="green chosenColor" onClick={this.applyColor.bind(this, '#73C6B6')} />
-                    <div className="blue" onClick={this.applyColor.bind(this, '#5499C7')}/>
-                    <div className="grey" onClick={this.applyColor.bind(this, '#AAB7B8')}/>
-                  </div>
-              }
-              if(this.props.currentColor === '#5499C7') {
-                return <div className="palette">
-                  <div className="green" onClick={this.applyColor.bind(this, '#73C6B6')} />
-                  <div className="blue chosenColor" onClick={this.applyColor.bind(this, '#5499C7')}/>
-                  <div className="grey" onClick={this.applyColor.bind(this, '#AAB7B8')}/>
-                </div>
-              }
-              if(this.props.currentColor === '#AAB7B8') {
-                return <div className="palette">
-                  <div className="green" onClick={this.applyColor.bind(this, '#73C6B6')} />
-                  <div className="blue" onClick={this.applyColor.bind(this, '#5499C7')}/>
-                  <div className="grey chosenColor" onClick={this.applyColor.bind(this, '#AAB7B8')}/>
-                </div>
-              }
+              var colors = ['green', 'blue', 'grey'];
+              colors = colors.map(function(color, i) {
+                return <Color key={i} color={color} isChosen={this.props.currentColor === color} applyColor={this.props.applyColor} />
+              }.bind(this))
+              return <div className="palette">
+                {colors}
+              </div>
             },
-            applyColor(newColor) {
-              this.props.applyColor(newColor);
-            }
-          })
+          });
 
           ReactDOM.render(<App />, document.getElementById('app'));
 
