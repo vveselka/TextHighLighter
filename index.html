@@ -4,7 +4,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -16,11 +15,11 @@
         </div>
 
         <script type="text/babel">
-          function getAllTexts(rootElement, result) {
+          function getAllTextNodes(rootElement, result) {
             for(var i = 0; i < rootElement.childNodes.length; i++) {
               if(rootElement.childNodes[i].childNodes.length === 0) {
                 result.push(rootElement.childNodes[i]);
-              } else getAllTexts(rootElement.childNodes[i], result);
+              } else getAllTextNodes(rootElement.childNodes[i], result);
             }
             return result;
           }
@@ -100,14 +99,12 @@
                   var start = preCaretRange.toString().length;
                   preCaretRange.setEnd(range.endContainer, range.endOffset);
                   var end = preCaretRange.toString().length;
-                  var selectedText = highLightSelection(start, end, getAllTexts(el, []), this.props.colorForSelection);
+                  var selectedText = highLightSelection(start, end, getAllTextNodes(el, []), this.props.colorForSelection);
                   this.props.addSetectedText(selectedText);
                   sel.empty();
               }
               window.getSelection().empty();
             },
-
-
           })
 
           var App = React.createClass({
@@ -143,7 +140,6 @@
             }
           });
 
-
           var SidePanel = React.createClass({
             propTypes: {
               selectedItems: React.PropTypes.array,
@@ -153,8 +149,7 @@
               this.props.selectedItems.forEach(function(element, index) {
                 var selectedElement =
                 <li key={index}>
-
-                 <span className={element.color} >Selection {index + 1}: </span>
+                  <span className={element.color} >Selection {index + 1}: </span>
                   <div className="selectedItem">
                     {element.inputText}
                   </div>
