@@ -13,7 +13,7 @@ h3 {
 }
 
 .highlightRed {
-  background: #FCD5D1;
+  background: #E6B0AA;
 }
 
 .sidePanel {
@@ -98,7 +98,7 @@ li {
 }
 
 .palette {
-  display: inline-block;
+
   margin-left: 5%;
   vertical-align: top;
 }
@@ -122,4 +122,9 @@ li {
 
 .chosenColor:hover {
   opacity: 1;
+}
+
+
+#copy {
+  background-color: #73C6B6;
 }
