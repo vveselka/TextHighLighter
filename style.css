@@ -12,6 +12,10 @@ h3 {
   font-size: 26px;
 }
 
+#app {
+  margin-top: 20px;
+}
+
 .highlightRed {
   background: #E6B0AA;
 }
@@ -31,10 +35,10 @@ h3 {
   vertical-align: top;
   font-size: 18px;
   width: 65%;
-  height: 800px;
+  min-height: 800px;
   padding-right: 40px;
-  padding-top: 20px;
   margin-left: 5%;
+  padding-bottom: 20px;
 }
 
 .error {
@@ -67,20 +71,6 @@ li {
 .selectionTitile {
   font-size: 18px;
   padding-left: 14px;
-  font-weight: bold;
-}
-
-.removeSelection {
-  display: inline-block;
-  font-size: 12px;
-  padding-left: 12px;
-  color: #D98880;
-  cursor: pointer;
-  transition: color 0.5s;
-}
-
-.removeSelection:hover {
-  color: #CD6155;
   font-weight: bold;
 }
 
@@ -122,9 +112,4 @@ li {
 
 .chosenColor:hover {
   opacity: 1;
-}
-
-
-#copy {
-  background-color: #73C6B6;
 }

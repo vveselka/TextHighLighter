@@ -11,8 +11,7 @@
   </head>
   <body>
     <div>
-      <h3>Text HighLighter</h3>
-        <div  id='app'>
+        <div id='app'>
         </div>
 
         <script type="text/babel">
@@ -46,15 +45,18 @@
             return selectedText;
           }
 
+
           function highLightTextDom(start, end, textElement, colorForSelection) {
             var textData = textElement.data;
             if(end > textData.length) end = textData.length;
             var leftText = textData.substring(0, start) === '' ? null : document.createTextNode(textData.substring(0, start));
             var rightText = textData.substring(end, textData.length) === '' ? null: document.createTextNode(textData.substring(end, textData.length));
             var span = document.createElement('span');
-            if(textElement.parentNode.nodeName ==='SPAN') {
-              span.className = 'highlightRed';
-            } else span.className = colorForSelection;
+            if(textElement.parentNode.nodeName ==='SPAN' && textElement.parentNode.className.includes('selectedByUser')) {
+              span.className = 'highlightRed selectedByUser';
+            } else {
+              span.className = colorForSelection + ' selectedByUser';
+            }
             span.appendChild(document.createTextNode(textData.substring(start, end)));
             var parent = textElement.parentNode;
             if(leftText != null) parent.insertBefore(leftText, textElement);
@@ -112,14 +114,13 @@
               }
             },
             render() {
-              return <div className="app">
+              return <div>
                   <Palette applyColor={this.applyColor} currentColor={this.state.currentColor} />
                   <Text addSetectedText={this.addSelectedItems} colorForSelection={this.state.currentColor} />
-                <SidePanel selectedItems={this.state.selectedItems} />
+                  <SidePanel selectedItems={this.state.selectedItems} />
               </div>
             },
             addSelectedItems(selectedText) {
-              console.log(selectedText);
               var newSelections = this.state.selectedItems.slice()
               newSelections.push({color: this.state.currentColor, inputText: selectedText});
               this.setState({
@@ -130,7 +131,7 @@
               this.setState({
                 currentColor: color,
               });
-            }
+            },
           });
 
 
