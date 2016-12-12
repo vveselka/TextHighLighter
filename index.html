@@ -25,17 +25,17 @@
             return result;
           }
 
-          function highLightSelection(start, end, textNodes) {
+          function highLightSelection(start, end, textNodes, colorForSelection) {
             var offset = 0;
             var selectedText = '';
             for(var i = 0; i < textNodes.length; i++) {
               if(textNodes[i].length + offset >= start) {
-                highLightTextDom(start - offset, end - offset, textNodes[i]);
+                highLightTextDom(start - offset, end - offset, textNodes[i], colorForSelection);
                 selectedText += textNodes[i].data.substring(start - offset, end - offset);
                 offset += textNodes[i].length;
                 while(offset < end) {
                   i++;
-                  highLightTextDom(start - offset, end - offset, textNodes[i]);
+                  highLightTextDom(start - offset, end - offset, textNodes[i], colorForSelection);
                   selectedText += textNodes[i].data.substring(start - offset, end - offset);
                   offset += textNodes[i].length;
                 }
@@ -46,7 +46,7 @@
             return selectedText;
           }
 
-          function highLightTextDom(start, end, textElement) {
+          function highLightTextDom(start, end, textElement, colorForSelection) {
             var textData = textElement.data;
             if(end > textData.length) end = textData.length;
             var leftText = textData.substring(0, start) === '' ? null : document.createTextNode(textData.substring(0, start));
@@ -54,7 +54,7 @@
             var span = document.createElement('span');
             if(textElement.parentNode.nodeName ==='SPAN') {
               span.className = 'highlightRed';
-            } else span.className = 'blue';
+            } else span.className = colorForSelection;
             span.appendChild(document.createTextNode(textData.substring(start, end)));
             var parent = textElement.parentNode;
             if(leftText != null) parent.insertBefore(leftText, textElement);
@@ -66,6 +66,7 @@
           var Text = React.createClass({
             propTypes: {
               addSetectedText: React.PropTypes.func.isRequired,
+              colorForSelection: React.PropTypes.string.isRequired,
             },
             render() {
               return <div className='text' id='text' onMouseUp={this.addSelectedText}>
@@ -94,7 +95,7 @@
                   var start = preCaretRange.toString().length;
                   preCaretRange.setEnd(range.endContainer, range.endOffset);
                   var end = preCaretRange.toString().length;
-                  var selectedText = highLightSelection(start, end, getAllTexts(el, []));
+                  var selectedText = highLightSelection(start, end, getAllTexts(el, []), this.props.colorForSelection);
                   this.props.addSetectedText(selectedText);
                   sel.empty();
               }
@@ -110,22 +111,20 @@
                   currentColor: 'green',
               }
             },
-
             render() {
               return <div className="app">
                   <Palette applyColor={this.applyColor} currentColor={this.state.currentColor} />
-                  <Text addSetectedText={this.addSelectedItems} />
+                  <Text addSetectedText={this.addSelectedItems} colorForSelection={this.state.currentColor} />
                 <SidePanel selectedItems={this.state.selectedItems} />
               </div>
             },
             addSelectedItems(selectedText) {
               console.log(selectedText);
               var newSelections = this.state.selectedItems.slice()
-              newSelections.push({color: 'green', inputText: selectedText});
+              newSelections.push({color: this.state.currentColor, inputText: selectedText});
               this.setState({
                 selectedItems: newSelections,
               })
-
             },
             applyColor(color) {
               this.setState({
@@ -133,7 +132,6 @@
               });
             }
           });
-
 
 
           var SidePanel = React.createClass({
