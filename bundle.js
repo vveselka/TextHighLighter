@@ -64,11 +64,7 @@
 
 	var _Palette2 = _interopRequireDefault(_Palette);
 
-	var _Text = __webpack_require__(180);
-
-	var _Text2 = _interopRequireDefault(_Text);
-
-	var _SidePanel = __webpack_require__(181);
+	var _SidePanel = __webpack_require__(180);
 
 	var _SidePanel2 = _interopRequireDefault(_SidePanel);
 
@@ -122,7 +118,6 @@
 	  }, {
 	    key: 'addSelectedText',
 	    value: function addSelectedText() {
-	      console.log('add selection');
 	      var el = document.getElementById('text');
 	      var sel = window.getSelection();
 	      if (sel.rangeCount > 0) {
@@ -227,11 +222,6 @@
 	    value: function render() {
 	      var _this4 = this;
 
-	      console.log(this.state);
-	      /* <Text
-	        addSetectedText={(selectedText) => this.addSelectedItems(selectedText)}
-	        colorForSelection={this.state.currentColor}
-	      /> */
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -21847,10 +21837,10 @@
 	        return _react2.default.createElement(_Color2.default, {
 	          key: i,
 	          color: color,
-	          isChosen: this.props.currentColor === color,
-	          applyColor: this.props.applyColor
+	          isChosen: _this2.props.currentColor === color,
+	          applyColor: _this2.props.applyColor
 	        });
-	      }.bind(this));
+	      });
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'palette' },
@@ -21869,7 +21859,6 @@
 	  }, {
 	    key: 'removeAllSelections',
 	    value: function removeAllSelections() {
-
 	      this.props.removeAllSelections();
 	    }
 	  }]);
@@ -21945,218 +21934,6 @@
 
 /***/ },
 /* 180 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Text = function (_React$Component) {
-	  _inherits(Text, _React$Component);
-
-	  function Text() {
-	    _classCallCheck(this, Text);
-
-	    return _possibleConstructorReturn(this, (Text.__proto__ || Object.getPrototypeOf(Text)).apply(this, arguments));
-	  }
-
-	  _createClass(Text, [{
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
-
-	      console.log('render Text');
-	      return _react2.default.createElement(
-	        'div',
-	        { onClick: function onClick() {
-	            return console.log('click');
-	          }, onMouseUp: function onMouseUp() {
-	            return _this2.addSelectedText();
-	          }, className: 'text', id: 'text' },
-	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          'Google Pixel phones to be unveiled October 4'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'The firm may also launch its voice-activated AI home audio speaker, a VR headset and a 4K Chromecast'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'Google will unveil its latest Pixel smartphones on October 4, the firm has suggested through a teaser website.'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'It is believed the Nexus brand name will be dropped in favour of two new models: the Pixel and the Pixel XL.'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'Current rumours around the devices \u2013 which have been codenamed Sailfish and Marlin \u2013 say the devices will be 5-inch and 5.5-inch phones. At Google\'s developer conference in May CEO Sundar Pichai hinted that the new line would includes additional Google features built on top of the Android operating system. As such, Pixel is expected to become a premium brand.'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'The teaser website shows a search bar that morphs into the outline of a phone, before flashing with various images. The event will take place in San Francisco at 9AM PST (5PM BST), and be streamed on YouTube.'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'Leaked images of the Pixel phones'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          ' Leaked images of the Pixel phones'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'Android Police'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'At present the company controls the design and marketing of its Nexus products, with the manufacturing of the devices outsourced to third parties. This, according to Pichai earlier this year, will not change.'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'But there could also be more to come from the event. A previous report from Android Police has said the event will be packed with Google\'s latest products.'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'Rumoured to be launching that day will be a Google virtual reality headset, under the guise of the Google Daydream project; a 4K Chromecast, and its highly anticipated AI personal assistant device.'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'At its developer conference, Google announced a new voice-controlled, artificial intelligence Home speaker that will connect to devices around a building and be able to control them. The artificial intelligence based Google Home speaker The artificial intelligence based Google Home speaker Google'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'The device will use a Google Assistant, which is being built into a new Google messages app called Allo \u2013 which is rumoured to be launching before the October event. "With a simple voice command, you can ask Google Home to play a song, set a timer for the oven, check your flight, or turn on your lights," the firm said at the time.'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'Any home device would be a rival to Amazon\'s Echo, which launched in the UK on September 16. The Echo uses Amazon\'s own personal assistant, Alexa, to control internet of things devices as well as provide news, weather, and travel updates.'
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'Although the teaser website doesn\'t reference any of these products, Google previously said its Home device would launch before the end of 2016.'
-	        )
-	      );
-	    }
-	  }, {
-	    key: 'addSelectedText',
-	    value: function addSelectedText() {
-	      console.log('add selection');
-	      var el = document.getElementById('text');
-	      var sel = window.getSelection();
-	      if (sel.rangeCount > 0) {
-	        var range = sel.getRangeAt(0);
-	        if (range.toString() === '') return;
-	        var preCaretRange = range.cloneRange();
-	        preCaretRange.selectNodeContents(el);
-	        preCaretRange.setEnd(range.startContainer, range.startOffset);
-	        var start = preCaretRange.toString().length;
-	        preCaretRange.setEnd(range.endContainer, range.endOffset);
-	        var end = preCaretRange.toString().length;
-	        var selectedText = this.highLightSelection(start, end, this.getAllTextNodes(el, []), this.props.colorForSelection);
-	        this.props.addSetectedText(selectedText);
-	        sel.empty();
-	      }
-	      window.getSelection().empty();
-	    }
-	  }, {
-	    key: 'getAllTextNodes',
-	    value: function getAllTextNodes(rootElement, result) {
-	      for (var i = 0; i < rootElement.childNodes.length; i++) {
-	        if (rootElement.childNodes[i].childNodes.length === 0) {
-	          result.push(rootElement.childNodes[i]);
-	        } else this.getAllTextNodes(rootElement.childNodes[i], result);
-	      }
-	      return result;
-	    }
-	  }, {
-	    key: 'highLightSelection',
-	    value: function highLightSelection(start, end, textNodes, colorForSelection) {
-	      var offset = 0;
-	      var selectedText = '';
-	      for (var i = 0; i < textNodes.length; i++) {
-	        if (textNodes[i].length + offset >= start) {
-	          this.highLightTextDom(start - offset, end - offset, textNodes[i], colorForSelection);
-	          selectedText += textNodes[i].data.substring(start - offset, end - offset);
-	          offset += textNodes[i].length;
-	          while (offset < end) {
-	            i++;
-	            this.highLightTextDom(start - offset, end - offset, textNodes[i], colorForSelection);
-	            selectedText += textNodes[i].data.substring(start - offset, end - offset);
-	            offset += textNodes[i].length;
-	          }
-	          break;
-	        }
-	        offset += textNodes[i].length;
-	      }
-	      return selectedText;
-	    }
-	  }, {
-	    key: 'highLightTextDom',
-	    value: function highLightTextDom(start, end, textElement, colorForSelection) {
-	      var textData = textElement.data;
-	      if (end > textData.length) end = textData.length;
-	      var leftText = textData.substring(0, start) === '' ? null : document.createTextNode(textData.substring(0, start));
-	      var rightText = textData.substring(end, textData.length) === '' ? null : document.createTextNode(textData.substring(end, textData.length));
-	      var span = document.createElement('span');
-	      if (textElement.parentNode.nodeName === 'SPAN' && textElement.parentNode.className.includes('selectedByUser')) {
-	        span.className = 'highlightRed selectedByUser';
-	      } else {
-	        span.className = colorForSelection + ' selectedByUser';
-	      }
-	      span.appendChild(document.createTextNode(textData.substring(start, end)));
-	      var parent = textElement.parentNode;
-	      if (leftText != null) parent.insertBefore(leftText, textElement);
-	      parent.insertBefore(span, textElement);
-	      if (rightText != null) parent.insertBefore(rightText, textElement);
-	      parent.removeChild(textElement);
-	    }
-	  }]);
-
-	  return Text;
-	}(_react2.default.Component);
-
-	Text.propTypes = {
-	  addSetectedText: _react2.default.PropTypes.func.isRequired,
-	  colorForSelection: _react2.default.PropTypes.string.isRequired
-	};
-	exports.default = Text;
-
-/***/ },
-/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

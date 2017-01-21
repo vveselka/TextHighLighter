@@ -8,7 +8,7 @@ export default class Color extends React.Component {
   }
 
   render() {
-    var highLigh = this.props.isChosen? '   chosenColor': '';
+    const highLigh = this.props.isChosen? '   chosenColor': '';
     return <div
       className={this.props.color + highLigh}
       onClick={this.applyColor.bind(this, this.props.color)}

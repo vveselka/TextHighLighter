@@ -6,7 +6,7 @@ export default class SidePanel extends React.Component {
   }
 
   render() {
-    var selectedElements = [];
+    const selectedElements = [];
     this.props.selectedItems.forEach((element, index) => {
       var selectedElement =
       <li key={index}>

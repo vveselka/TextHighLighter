@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Palette from './Palette.js';
-import Text from './Text.js';
 import SidePanel from './SidePanel.js';
 
 class Highlighter {
@@ -35,19 +34,23 @@ class Highlighter {
   }
 
   addSelectedText() {
-    console.log('add selection');
-    var el = document.getElementById('text');
-    var sel = window.getSelection();
+    const el = document.getElementById('text');
+    const sel = window.getSelection();
     if(sel.rangeCount > 0) {
-        var range = sel.getRangeAt(0);
+        const range = sel.getRangeAt(0);
         if(range.toString() === '') return;
-        var preCaretRange = range.cloneRange();
+        const preCaretRange = range.cloneRange();
         preCaretRange.selectNodeContents(el);
         preCaretRange.setEnd(range.startContainer, range.startOffset);
-        var start = preCaretRange.toString().length;
+        const start = preCaretRange.toString().length;
         preCaretRange.setEnd(range.endContainer, range.endOffset);
-        var end = preCaretRange.toString().length;
-        var selectedText = this.highLightSelection(start, end, this.getAllTextNodes(el, []), this._color);
+        const end = preCaretRange.toString().length;
+        const selectedText = this.highLightSelection(
+          start,
+          end,
+          this.getAllTextNodes(el, []),
+          this._color
+        );
         this._onSelectedText(selectedText);
         sel.empty();
     }
@@ -55,7 +58,7 @@ class Highlighter {
   }
 
   getAllTextNodes(rootElement, result) {
-    for(var i = 0; i < rootElement.childNodes.length; i++) {
+    for(let i = 0; i < rootElement.childNodes.length; i++) {
       if(rootElement.childNodes[i].childNodes.length === 0) {
         result.push(rootElement.childNodes[i]);
       } else this.getAllTextNodes(rootElement.childNodes[i], result);
@@ -64,9 +67,9 @@ class Highlighter {
   }
 
   highLightSelection(start, end, textNodes, colorForSelection) {
-    var offset = 0;
-    var selectedText = '';
-    for(var i = 0; i < textNodes.length; i++) {
+    let offset = 0;
+    let selectedText = '';
+    for(let i = 0; i < textNodes.length; i++) {
       if(textNodes[i].length + offset >= start) {
         this.highLightTextDom(start - offset, end - offset, textNodes[i], colorForSelection);
         selectedText += textNodes[i].data.substring(start - offset, end - offset);
@@ -86,13 +89,13 @@ class Highlighter {
 
 
   highLightTextDom(start, end, textElement, colorForSelection) {
-    var textData = textElement.data;
+    const textData = textElement.data;
     if(end > textData.length) end = textData.length;
-    var leftText = textData.substring(0, start) === ''
+    const leftText = textData.substring(0, start) === ''
       ? null : document.createTextNode(textData.substring(0, start));
-    var rightText = textData.substring(end, textData.length) === ''
+    const rightText = textData.substring(end, textData.length) === ''
       ? null: document.createTextNode(textData.substring(end, textData.length));
-    var span = document.createElement('span');
+    const span = document.createElement('span');
     if(textElement.parentNode.nodeName ==='SPAN'
       && textElement.parentNode.className.includes('selectedByUser')) {
         span.className = 'highlightRed selectedByUser';
@@ -100,7 +103,7 @@ class Highlighter {
       span.className = colorForSelection + ' selectedByUser';
     }
     span.appendChild(document.createTextNode(textData.substring(start, end)));
-    var parent = textElement.parentNode;
+    const parent = textElement.parentNode;
     if(leftText != null) parent.insertBefore(leftText, textElement);
     parent.insertBefore(span, textElement);
     if(rightText != null) parent.insertBefore(rightText, textElement);
@@ -127,11 +130,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log(this.state);
-/* <Text
-  addSetectedText={(selectedText) => this.addSelectedItems(selectedText)}
-  colorForSelection={this.state.currentColor}
-/> */
     return <div>
         <Palette
           applyColor={(color) => this.applyColor(color)}
@@ -161,7 +159,7 @@ export default class App extends React.Component {
   }
 
   addSelectedItems(selectedText) {
-    var newSelections = this.state.selectedItems.slice()
+    const newSelections = this.state.selectedItems.slice()
     newSelections.push({color: this.state.currentColor, inputText: selectedText});
     this.setState({
       selectedItems: newSelections,

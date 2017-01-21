@@ -9,15 +9,15 @@ export default class Palette extends React.Component {
   }
 
   render() {
-    var colors = ['green', 'blue', 'grey'];
-    colors = colors.map(function(color, i) {
+    let colors = ['green', 'blue', 'grey'];
+    colors = colors.map((color, i) =>  {
       return <Color
         key={i}
         color={color}
         isChosen={this.props.currentColor === color}
         applyColor={this.props.applyColor}
       />
-    }.bind(this))
+    });
     return <div className="palette">
       {colors}
       <div
@@ -29,7 +29,6 @@ export default class Palette extends React.Component {
   }
 
   removeAllSelections() {
-
     this.props.removeAllSelections();
   }
 }
